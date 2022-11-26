@@ -1,0 +1,17 @@
+{
+    "categorias": [
+        {
+            "id": 1,
+            "categoria": "Telefonia"
+        },
+        {
+            "id": 2,
+            "categoria": "Eletrodomésticos"
+        },
+        {
+            "id": 3,
+            "categoria": "Moveis"
+        }
+    ],
+    "produtos":[]
+}
