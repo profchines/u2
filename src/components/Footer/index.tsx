@@ -35,9 +35,14 @@ export const Footer = () => {
                     <FaFacebook style={{
                         margin: 10
                     }} color='#fff' />
-                    <FaInstagram style={{
-                        margin: 10
-                    }} color='#fff' />
+                    <a
+                        href='https://getbootstrap.com'
+                        target='_blank'
+                    >
+                        <FaInstagram style={{
+                            margin: 10
+                        }} color='#fff' />
+                    </a>
 
                 </div>
             </footer>

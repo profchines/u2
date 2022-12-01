@@ -21,7 +21,7 @@ export const Menu = () => {
 
         axios.get('http://localhost:3001/categorias',
             {
-                headers: { 'Authorization': 'Bearer frelihjgfoyfaweoifvr' }
+                headers: { 'Authorization': 'Bearer reuytherouytgt' }
             }
         )
             .then((response) => {
