@@ -27,6 +27,9 @@ export const Home = () => {
             .then((response) => {
                 setProdutos(response.data)
             })
+            .catch((erro) => {
+                console.log(erro)
+            })
     }, [])
 
     return (
@@ -42,6 +45,7 @@ export const Home = () => {
                         produtos.map((produto) => (
                             <Card
                                 key={produto.id}
+                                id={produto.id}
                                 img={
                                     'https://raw.githubusercontent.com/profchines/imagensProjetoU2/main/' +
                                     produto.imagemp
