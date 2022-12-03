@@ -41,35 +41,46 @@ export const Produto = () => {
         e.preventDefault();
         if (produto) {
             let qtd = e.target.quantidade.value
+            if (qtd > 0) {
 
-            let obj = {
-                ...produto,
-                quantidade: qtd,
-                total: Number(produto.promoNumber) * qtd
+                let obj = {
+                    ...produto,
+                    quantidade: qtd,
+                    total: Number(produto.promoNumber) * qtd
+                }
+
+                let lsCarrinho = localStorage.getItem('@u2:carrinho')
+                let carrinho: any = null
+
+                if (typeof lsCarrinho === 'string') {
+                    carrinho = JSON.parse(lsCarrinho)
+                }
+
+                if (carrinho) {
+                    let igual = false
+                    carrinho.forEach((car: any) => {
+                        if (car.id === obj.id) {
+                            igual = true
+                        }
+                    });
+                    if (!igual) {
+                        carrinho.push(obj)
+
+                        localStorage.setItem(
+                            '@u2:carrinho',
+                            JSON.stringify(carrinho)
+                        )
+                    }
+
+                } else {
+                    localStorage.setItem(
+                        '@u2:carrinho',
+                        JSON.stringify([obj])
+                    )
+                }
+
+                navigate('/carrinho')
             }
-
-            let lsCarrinho = localStorage.getItem('@u2:carrinho')
-            let carrinho: any = null
-
-            if (typeof lsCarrinho === 'string') {
-                carrinho = JSON.parse(lsCarrinho)
-            }
-
-            if (carrinho) {
-                carrinho.push(obj)
-
-                localStorage.setItem(
-                    '@u2:carrinho',
-                    JSON.stringify(carrinho)
-                )
-            } else {
-                localStorage.setItem(
-                    '@u2:carrinho',
-                    JSON.stringify([obj])
-                )
-            }
-
-            navigate('/carrinho')
         }
     }
 

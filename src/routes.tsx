@@ -8,6 +8,8 @@ import { Carrinho } from './pages/Carrinho';
 import { Home } from './pages/Home';
 import { Categoria } from './pages/Categoria';
 import { Produto } from './pages/Produto';
+import { ListCategoria } from './pages/ListCategoria';
+import { AddAndUpdateCategoria } from './pages/AddAndUpdateCategoria';
 
 export const Rotas = () => {
     return (
@@ -25,6 +27,14 @@ export const Rotas = () => {
                 <Route
                     path='/produto/:id'
                     element={<Produto />}
+                />
+                <Route
+                    path='/listagemCategoria'
+                    element={<ListCategoria />}
+                />
+                <Route
+                    path='/crud/categoria/:id'
+                    element={<AddAndUpdateCategoria />}
                 />
             </Routes>
         </BrowserRouter>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { Footer } from '../../components/Footer';
 import { Menu } from '../../components/Menu';
+import { FaTrash } from 'react-icons/fa';
 
 interface interfaceProdutos {
     id: string,
@@ -19,6 +20,32 @@ interface interfaceProdutos {
 export const Carrinho = () => {
 
     const [dataCarrinho, setDataCarrinho] = useState<Array<interfaceProdutos>>([])
+    const [valorTotal, setValorTotal] = useState<number>(0)
+
+    function atualizarValorTotal(
+        carrinho: Array<interfaceProdutos>
+    ) {
+        let total = 0
+        carrinho.forEach((produto) => {
+            total = produto.total + total
+        })
+
+        setValorTotal(total)
+    }
+
+    function formatarValorBR(
+        valor?: number | string | null
+    ) {
+        if (valor) {
+            let valorUS = parseFloat(valor.toString())
+            return 'R$ ' + valorUS.toLocaleString('pt-br', {
+                minimumFractionDigits: 2
+            })
+        }
+
+        return 'R$ 0,00'
+
+    }
 
     useEffect(() => {
         let lsCarrinho = localStorage.getItem('@u2:carrinho')
@@ -30,9 +57,25 @@ export const Carrinho = () => {
 
         if (carrinho) {
             setDataCarrinho(carrinho)
+            atualizarValorTotal(carrinho)
         }
 
     }, [])
+
+    function removeProdutoCarrinho(id: string) {
+        let carrinho = dataCarrinho.filter((produto) => (
+            produto.id !== id
+        ))
+
+        localStorage.setItem('@u2:carrinho', JSON.stringify(carrinho))
+
+        setDataCarrinho(carrinho)
+        atualizarValorTotal(carrinho)
+
+
+    }
+
+
 
     // github.com/profchines
     return (
@@ -65,14 +108,48 @@ export const Carrinho = () => {
                                     <td width={300}>{produto.nome}</td>
                                     <td>{produto.quantidade}</td>
                                     <td>{produto.promo}</td>
-                                    <td>{produto.total}</td>
-                                    <td>Ações</td>
+                                    <td>{formatarValorBR(produto.total)}</td>
+                                    <td>
+                                        <button
+                                            type='button'
+                                            className='btn btn-danger'
+                                            onClick={() => { removeProdutoCarrinho(produto.id) }}
+                                        >
+                                            <FaTrash />
+                                        </button>
+                                    </td>
                                 </tr>
                             ))
                         }
 
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td width={300}>Valor Total:</td>
+                            <td></td>
+                            <td></td>
+                            <td>{formatarValorBR(valorTotal)}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
+
+                <div
+                    className='d-flex justify-content-between'
+                >
+                    <button
+                        type='button'
+                        className='btn btn-danger'
+                    >
+                        Limpar Carrinho
+                    </button>
+                    <button
+                        type='button'
+                        className='btn btn-success'
+                    >
+                        Finalizar pedido
+                    </button>
+                </div>
             </Container>
             <Footer />
         </>
